@@ -1,0 +1,79 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+
+\makeatletter
+\newcommand{\@BIBLABEL}{\@emptybiblabel}
+\newcommand{\@emptybiblabel}[1]{}
+\makeatother
+\usepackage[hidelinks]{hyperref}
+ 
+\begin{document}
+\title{CSE 5525 Homework 1: Text Classification}
+\author{Alan Ritter}
+\date{}
+\maketitle
+ 
+In this assignment you will implement na\"{i}ve bayes and perceptron algorithms for
+sentiment classification.  You will train your models on a (provided) dataset of positive
+and negative movie reviews and report prediction accuracy on a test set.
+
+We provide you with starter Python code to help read in the data and evaluate the results of your model's predictions.
+You are \emph{strongly} encouraged to make use of the provided code.  
+If you prefer to implement everything from scratch, please talk to the instructor first.  Your submitted code
+should run on the command line in a unix-like environment (e.g. Linux, OSX, Cygwin or Windows Supsystem for Linux).
+
+Depending on the efficiency of your implementation the experiments required to complete the assignment may take some
+time to run, so it is a good idea to start early.
+
+\subsection*{Na\"{i}ve Bayes (3 points)}
+First, implement a na\"{i}ve bayes classifier.  The provided code in {\tt imdb.py} reads the data into a document-term matrix
+using scipy's {\tt csr\_matrix} format (See \url{http://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix} for details).
+We recommend working with log-probabilities using addition instead of directly multiplying probabilities to avoid the possibility of floating point underflow (see: \url{https://en.wikipedia.org/wiki/List_of_logarithmic_identities}).
+
+You can run the sample code like so:
+\begin{verbatim}
+python NaiveBayes.py ../../data/aclImdb 1.0
+\end{verbatim}
+
+The two methods you will need to implement are {\tt NaiveBayes.Train} and {\tt NaiveBayes.Predict}.  Before you do this, the classifier always predicts +1 (positive).
+Once you have implemented these methods, the code will print out accuracy.  Try running with different values of the smoothing hyperparameter ({\tt ALPHA}) (suggested values to try: 0.1, 0.5, 1.0, 10.0),
+and record the results for your report.
+
+\subsection*{Perceptron (3 points)}
+Next, implement the perceptron classification algorithm (starter code is provided in {\tt Perceptron.py}).
+The only hyperparameter is the number of iterations.  Run the classifier and report results on the test set with
+various numbers of iterations (for exaple: 1, 10, 50, 100, 1000).
+
+\subsection*{Parameter Averaging (2 points)}
+Modify the perceptron code to implement parameter averaging.  Instead of using parameters from the final iteration, $w_n$, to classify test examples, 
+use the average of the parameters from every iteration, $\sum_{i=1}^N w_i$.  A nice trick for doing this efficiently is described in section 2.1.1 of Hal Daume's thesis
+(\url{http://www.umiacs.umd.edu/~hal/docs/daume06thesis.pdf}).
+
+\subsection*{Features (2 points)}
+Print out the 20 most positive and 20 most negative words in
+the volcabulary sorted by their weight according to your model
+This will require a bit of thought how to do because the words in each document 
+have been converted to IDs (see {\tt Vocab.py}).  The output should look something like so:
+\begin{verbatim}
+word1_pos weight1
+word2_pos weight2
+word3_pos weight3
+...
+
+word1_neg weightk
+word2_neg weightk+1
+word3_neg weightk+2
+...
+\end{verbatim}
+Where {\tt wordn\_pos} and {\tt wordn\_neg} are the top 20 positive and negative words.  (Hint: you might find the {\tt numpy.argsort} method
+useful - \url{http://docs.scipy.org/doc/numpy/reference/generated/numpy.argsort.html}).  Please include this output in your report.
+
+\subsection*{What to Turn In}
+Please turn in the following to the dropbox on Carmen:
+
+\begin{enumerate}
+  \item Your code
+  \item A brief writeup that includes the numbers / evaluation requested above (text file format is fine).
+\end{enumerate}
+
+\end{document}
