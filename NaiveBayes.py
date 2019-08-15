@@ -39,4 +39,4 @@ if __name__ == "__main__":
     test  = IMDBdata("%s/test" % sys.argv[1], vocab=train.vocab)
     
     nb = NaiveBayes(train.X, train.Y, float(sys.argv[2]))
-    print nb.Eval(test.X, test.Y)
+    print(nb.Eval(test.X, test.Y))

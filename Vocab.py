@@ -1,13 +1,3 @@
-# Vocab.py
-# --------------
-# Licensing Information:  You are free to use or extend this project for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to The Ohio State University, including a link to http://aritter.github.io/courses/5525_spring19.html
-#
-# Attribution Information: This assignment was developed at The Ohio State University
-# by Alan Ritter (ritter.1492@osu.edu).
-
 class Vocab:
     def __init__(self, vocabFile=None):
         self.locked = False
@@ -23,9 +13,9 @@ class Vocab:
                 self.nextId = max(self.nextId, int(wid) + 1)
 
     def GetID(self, word):
-        if not self.word2id.has_key(word):
+        if not word in self.word2id:
             if self.locked:
-                return -1
+                return -1        #UNK token is -1.
             else:
                 self.word2id[word] = self.nextId
                 self.id2word[self.word2id[word]] = word

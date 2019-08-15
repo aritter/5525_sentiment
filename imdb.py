@@ -11,6 +11,8 @@
 import os
 import sys
 
+import torch
+
 #Sparse matrix implementation
 from scipy.sparse import csr_matrix
 from Vocab import Vocab
@@ -36,11 +38,15 @@ class IMDBdata:
         X_col_indices = []
         Y = []
 
+        XwordList = []
+
         #Read positive files
         for i in range(len(pFiles)):
             f = pFiles[i]
             for line in open("%s/pos/%s" % (directory, f)):
-                wordCounts = Counter([self.vocab.GetID(w.lower()) for w in line.split(" ")])
+                wordList   = [self.vocab.GetID(w.lower()) for w in line.split(" ") if self.vocab.GetID(w.lower()) >= 0]
+                XwordList.append(wordList)
+                wordCounts = Counter(wordList)
                 for (wordId, count) in wordCounts.items():
                     if wordId >= 0:
                         X_row_indices.append(i)
@@ -52,7 +58,9 @@ class IMDBdata:
         for i in range(len(nFiles)):
             f = nFiles[i]
             for line in open("%s/neg/%s" % (directory, f)):
-                wordCounts = Counter([self.vocab.GetID(w.lower()) for w in line.split(" ")])
+                wordList   = [self.vocab.GetID(w.lower()) for w in line.split(" ") if self.vocab.GetID(w.lower()) >= 0]
+                XwordList.append(wordList)
+                wordCounts = Counter(wordList)
                 for (wordId, count) in wordCounts.items():
                     if wordId >= 0:
                         X_row_indices.append(len(pFiles)+i)
@@ -63,15 +71,16 @@ class IMDBdata:
         self.vocab.Lock()
 
         #Create a sparse matrix in csr format
-        self.X = csr_matrix((X_values, (X_row_indices, X_col_indices)), shape=(max(X_row_indices)+1, self.vocab.GetVocabSize()))        
+        self.X = csr_matrix((X_values, (X_row_indices, X_col_indices)), shape=(max(X_row_indices)+1, self.vocab.GetVocabSize()))
         self.Y = np.asarray(Y)
 
         #Randomly shuffle
         index = np.arange(self.X.shape[0])
         np.random.shuffle(index)
         self.X = self.X[index,:]
+        self.XwordList = [torch.LongTensor(XwordList[i]) for i in index]  #Two different sparse formats, csr and lists of IDs (XwordList).
         self.Y = self.Y[index]
 
 if __name__ == "__main__":
     data = IMDBdata("../../data/aclImdb/train/")
-    print data.X
+    print(data.X)

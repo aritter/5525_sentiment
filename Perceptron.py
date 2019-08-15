@@ -44,6 +44,6 @@ if __name__ == "__main__":
     
     ptron = Perceptron(train.X, train.Y, int(sys.argv[2]))
     ptron.ComputeAverageParameters()
-    print ptron.Eval(test.X, test.Y)
+    print(ptron.Eval(test.X, test.Y))
 
     #TODO: Print out the 20 most positive and 20 most negative words
