@@ -13,7 +13,7 @@
 \date{}
 \maketitle
  
-In this assignment you will implement na\"{i}ve bayes and perceptron algorithms for
+In this assignment you will implement the na\"{i}ve bayes algorithm for
 sentiment classification.  You will train your models on a (provided) dataset of positive
 and negative movie reviews and report prediction accuracy on a test set.
 
@@ -38,35 +38,6 @@ python NaiveBayes.py aclImdb_small 1.0
 The two methods you will need to implement are {\tt NaiveBayes.Train} and {\tt NaiveBayes.Predict}.  Before you do this, the classifier always predicts +1 (positive).
 Once you have implemented these methods, the code will print out accuracy.  Try running with different values of the smoothing hyperparameter ({\tt ALPHA}) (suggested values to try: 0.1, 0.5, 1.0, 10.0),
 and record the results for your report.
-
-\subsection*{Perceptron (3 points)}
-Next, implement the perceptron classification algorithm (starter code is provided in {\tt Perceptron.py}).
-The only hyperparameter is the number of iterations.  Run the classifier and report results on the test set with
-various numbers of iterations (for exaple: 1, 10, 50, 100, 1000).
-
-\subsection*{Parameter Averaging (2 points)}
-Modify the perceptron code to implement parameter averaging.  Instead of using parameters from the final iteration, $w_n$, to classify test examples, 
-use the average of the parameters from every iteration, $\sum_{i=1}^N w_i$.  A nice trick for doing this efficiently is described in section 2.1.1 of Hal Daume's thesis
-(\url{http://www.umiacs.umd.edu/~hal/docs/daume06thesis.pdf}).
-
-\subsection*{Features (2 points)}
-Print out the 20 most positive and 20 most negative words in
-the volcabulary sorted by their weight according to your model
-This will require a bit of thought how to do because the words in each document 
-have been converted to IDs (see {\tt Vocab.py}).  The output should look something like so:
-\begin{verbatim}
-word1_pos weight1
-word2_pos weight2
-word3_pos weight3
-...
-
-word1_neg weightk
-word2_neg weightk+1
-word3_neg weightk+2
-...
-\end{verbatim}
-Where {\tt wordn\_pos} and {\tt wordn\_neg} are the top 20 positive and negative words.  (Hint: you might find the {\tt numpy.argsort} method
-useful - \url{http://docs.scipy.org/doc/numpy/reference/generated/numpy.argsort.html}).  Please include this output in your report.
 
 \subsection*{What to Turn In}
 Please turn in the following to the dropbox on Carmen:
