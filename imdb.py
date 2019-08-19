@@ -1,16 +1,7 @@
-# imdb.py
-# --------------
-# Licensing Information:  You are free to use or extend this project for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to The Ohio State University, including a link to http://aritter.github.io/courses/5525_spring19.html
-#
-# Attribution Information: This assignment was developed at The Ohio State University
-# by Alan Ritter (ritter.1492@osu.edu).
-
 import os
 import sys
 
+from nltk import word_tokenize
 import torch
 
 #Sparse matrix implementation
@@ -44,7 +35,7 @@ class IMDBdata:
         for i in range(len(pFiles)):
             f = pFiles[i]
             for line in open("%s/pos/%s" % (directory, f)):
-                wordList   = [self.vocab.GetID(w.lower()) for w in line.split(" ") if self.vocab.GetID(w.lower()) >= 0]
+                wordList   = [self.vocab.GetID(w.lower()) for w in word_tokenize(line) if self.vocab.GetID(w.lower()) >= 0]
                 XwordList.append(wordList)
                 wordCounts = Counter(wordList)
                 for (wordId, count) in wordCounts.items():
@@ -58,7 +49,7 @@ class IMDBdata:
         for i in range(len(nFiles)):
             f = nFiles[i]
             for line in open("%s/neg/%s" % (directory, f)):
-                wordList   = [self.vocab.GetID(w.lower()) for w in line.split(" ") if self.vocab.GetID(w.lower()) >= 0]
+                wordList   = [self.vocab.GetID(w.lower()) for w in word_tokenize(line) if self.vocab.GetID(w.lower()) >= 0]
                 XwordList.append(wordList)
                 wordCounts = Counter(wordList)
                 for (wordId, count) in wordCounts.items():
