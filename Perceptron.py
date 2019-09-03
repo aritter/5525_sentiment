@@ -40,7 +40,7 @@ class Perceptron:
 
 if __name__ == "__main__":
     train = IMDBdata("%s/train" % sys.argv[1])
-    test  = IMDBdata("%s/test" % sys.argv[1], vocab=train.vocab)
+    test  = IMDBdata("%s/dev" % sys.argv[1], vocab=train.vocab)
     
     ptron = Perceptron(train.X, train.Y, int(sys.argv[2]))
     ptron.ComputeAverageParameters()

@@ -1,0 +1,80 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[utf8]{inputenc}
+
+\makeatletter
+\newcommand{\@BIBLABEL}{\@emptybiblabel}
+\newcommand{\@emptybiblabel}[1]{}
+\makeatother
+\usepackage[hidelinks]{hyperref}
+ 
+\begin{document}
+\title{CSE 5525 Text Classification (part 2)}
+\author{Alan Ritter}
+\date{}
+\maketitle
+
+In the second part of this assignment, you will implement the perceptron algorithm (with parameter averaging) and a simple feed-forward neural network, using the same IMDB sentiment analysis dataset you experimented with in part 1.  This assignment will ask you to inspect perceptron model's parameters and compare the performance of the three algorithms.
+
+As before, the experiments required to complete the assignment may take some time to run - so the efficiency of your code will be an important consideration, and it is a good idea to start early.
+
+\subsection*{Gradient of Logistic Regression (written question - 2 points)}
+Derive the gradient of the conditional log likelihood objective for multi-class logistic regression:
+\begin{equation}
+\frac{\partial}{\partial w_i} \sum_{j} \log P(y_j|x_j)
+\end{equation}
+
+\subsection*{Perceptron}
+Implement the perceptron classification algorithm (use the starter code provided in {\tt Perceptron.py}).
+The only hyperparameter is the number of iterations.  Run the classifier and report results on the dev set with
+various numbers of iterations (for example: 1, 10, 50, 100, 1000).
+
+\subsection*{Parameter Averaging}
+Modify the perceptron code to implement parameter averaging.  Instead of using parameters from the final iteration, $w_n$, to classify test examples, 
+use the average of the parameters from every iteration, $\sum_{i=1}^N w_i$.  A nice trick for doing this efficiently is described in section 2.1.1 of Hal Daume's thesis
+(\url{http://www.umiacs.umd.edu/~hal/docs/daume06thesis.pdf}).
+
+Compare the performance of your implementation with and without parameter averaging.  Also compare to the results of your Naive Bayes classifier.
+
+\subsection*{Features}
+Print out the 20 most positive and 20 most negative words in
+the vocabulary sorted by their weight according to your model
+This will require a bit of thought how to do because the words in each document 
+have been converted to IDs (see {\tt Vocab.py}).  The output should look something like so:
+\begin{verbatim}
+word1_pos weight1
+word2_pos weight2
+word3_pos weight3
+...
+
+word1_neg weightk
+word2_neg weightk+1
+word3_neg weightk+2
+...
+\end{verbatim}
+Where {\tt wordn\_pos} and {\tt wordn\_neg} are the top 20 positive and negative words.  (Hint: you might find the {\tt numpy.argsort} method
+useful - \url{http://docs.scipy.org/doc/numpy/reference/generated/numpy.argsort.html}).  Please include this output in your report.
+
+\subsection*{Feed Forward Neural Network}
+First, we provide sample code for using Pytorch to implement a simple neural network that is capable of learning the XOR function.  Try running the following command:
+\begin{verbatim}
+python3 xor.py
+\end{verbatim}
+Read through the code for {\tt xor.py}, which provides an example of how to use Pytorch to define a computation graph, initialize the parameters of a neural network, compute gradients and optimize a loss function.
+
+Your next task is to implement a simple feed-forward neural network to classify the IMDB sentiment dataset.  We recommend starting with an Embedding Layer\footnote{\url{https://pytorch.org/docs/stable/nn.html\#embedding}}, a ReLU nonlinearity\footnote{\url{https://pytorch.org/docs/stable/nn.html\#relu}}, a single hidden layer and Adam optimizer.\footnote{\url{https://pytorch.org/docs/stable/optim.html\#torch.optim.Adam}}
+Please refer to the Pytorch Documentation for more information.
+
+\subsection*{Evaluation}
+Once your implementation is working, spend some time tuning hyperparameters (learning rate, optimizer, number of epochs, number of hidden units, etc.) on the provided development set.
+Once you are satisfied with the results, switch your code to evaluate on the test data (see the main functions in {\tt Perceptron.py}, {\tt FFNN.py} and report performance of these two methods (you can also compare to Naive Bayes as well.  You should only evaluate performance on the test data once, and report whatever numbers that you get (do *not* tune your models on the test set).
+
+\subsection*{What to Turn In}
+Please turn in the following to the dropbox on Carmen:
+
+\begin{enumerate}
+  \item Your code.
+  \item Your answer to the written question.
+  \item A brief writeup that includes the numbers/evaluation requested above (text file format is fine).
+\end{enumerate}
+
+\end{document}
