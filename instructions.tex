@@ -25,7 +25,7 @@ should run on the command line in a unix-like environment (e.g. Linux, OSX, Cygw
 Depending on the efficiency of your implementation the experiments required to complete the assignment may take some
 time to run, so it is a good idea to start early.
 
-\subsection*{Na\"{i}ve Bayes (3 points)}
+\subsection*{Na\"{i}ve Bayes}
 First, implement a na\"{i}ve bayes classifier.  The provided code in {\tt imdb.py} reads the data into a document-term matrix
 using scipy's {\tt csr\_matrix} format (See \url{http://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix} for details).
 We recommend working with log-probabilities using addition instead of directly multiplying probabilities to avoid the possibility of floating point underflow (see: \url{https://en.wikipedia.org/wiki/List_of_logarithmic_identities}).
